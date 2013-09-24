@@ -6,12 +6,12 @@ Map numeric data to keyboard keys (where key 49 is A4)
 Created primarily for use with baudio, but should work for other sound synthesis projects
 
 Reference
-=========
+---------
 
 [Wikipedia article on piano key frequencies](https://en.wikipedia.org/wiki/Piano_key_frequencies)
 
 Example
-=======
+-------
 ```javascript
 var DataPiano = require('data-piano')
 var baudio = require('baudio')
@@ -30,25 +30,25 @@ b.play()
 ```
 
 API
-===
+---
 
-##var DataPiano = require('data-piano')
+###var DataPiano = require('data-piano')
 
 Main class for data-piano
 
-##DataPiano.keyToFreq(key)
-##DataPiano#keyToFreq(key)
+###DataPiano.keyToFreq(key)
+###DataPiano#keyToFreq(key)
 
 Utility function that returns the corresponding frequency for a given piano key.  Can be used as either a static or instance method.
 
-##DataPiano#getSinPlayFunc(bps)
+###DataPiano#getSinPlayFunc(bps)
 
 Returns a function of time that represents the data played in sequence as sine waves, changing to the next key `bps` times per second
 
-##DataPiano#getSquarePlayFunc(bps)
+###DataPiano#getSquarePlayFunc(bps)
 
 Returns a function of time that represents the data played in sequence as square waves, changing to the next key `bps` times per second
 
-##DataPiano#getSawtoothPlayFunc(bps)
+###DataPiano#getSawtoothPlayFunc(bps)
 
 Returns a function of time that represents the data played in sequence as sawtooth waves, changing to the next key `bps` times per second
