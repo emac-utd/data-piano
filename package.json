@@ -1,0 +1,21 @@
+{
+  "name": "data-piano",
+  "description": "Normalize numeric data and map it to piano keys",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt-jasmine-node": "0.1.x",
+    "grunt-contrib-watch": "0.5.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/emac-utd/data-piano.git"
+  },
+  "homepage": "https://github.com/emac-utd/data-piano",
+  "author": {
+    "name": "Harrison Massey",
+    "email": "harrisonm@utdallas.edu",
+    "url": "https://github.com/Harrison-M"
+  },
+  "license": "MIT"
+}
