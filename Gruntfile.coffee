@@ -17,3 +17,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-jasmine-node'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.registerTask 'default', ['jasmine_node']
+  grunt.registerTask 'travis', ['jasmine_node']
