@@ -2,6 +2,7 @@
   "name": "data-piano",
   "description": "Normalize numeric data and map it to piano keys",
   "dependencies": {
+    "midi": "0.7.x"
   },
   "devDependencies": {
     "grunt-jasmine-node": "0.1.x",

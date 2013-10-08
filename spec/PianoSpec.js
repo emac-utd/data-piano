@@ -34,22 +34,28 @@ describe("keyToFreq", function(){
   })
 })
 
-describe("The constructor", function(){
+describe("The constructor, when called with one data set", function(){
   beforeEach(function() {
-    piano = new dp([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12
-    ], 49, 60)
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 49,
+      highKey: 60,
+      lowVelocity: 42,
+      highVelocity: 96
+    })
   });
   it("should map a series of numbers to a specified range of keys", function(){
     expect(piano.keys.length).toBe(12)
@@ -68,23 +74,29 @@ describe("The constructor", function(){
 
 describe("DataPiano#getSinPlayFunc", function() {
   beforeEach(function() {
-    piano = new dp([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12
-    ], 49, 60)
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 49,
+      highKey: 60,
+      lowVelocity: 42,
+      highVelocity: 96
+    })
     playFunc2 = piano.getSinPlayFunc(2);
     playFunc4 = piano.getSinPlayFunc(4);
-  });
+  })
   it("should return a function when passed an integer", function() {
     expect(typeof playFunc2).toBe('function');
     expect(typeof playFunc4).toBe('function');
