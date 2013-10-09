@@ -5,8 +5,8 @@ var playFunc4
 var Tau = 2 * Math.PI
 describe("keyToFreq", function(){
   it("should return a frequency that corresponds to a piano key number", function(){
-    expect(dp.keyToFreq(49)).toBe(440) //A4
-    expect(dp.keyToFreq(40)).toBeCloseTo(261.626, 3) //Middle C
+    expect(dp.keyToFreq(69)).toBe(440) //A4
+    expect(dp.keyToFreq(60)).toBeCloseTo(261.626, 3) //Middle C
   })
   it("should not allow any keys below 1", function(){
     var firstFailure = function() { dp.keyToFreq(-1) }
@@ -15,22 +15,26 @@ describe("keyToFreq", function(){
     expect(secondFailure).toThrow()
   })
   it("should be usable as an instance method as well as a static method", function(){
-    piano = new dp([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12
-    ], 49, 62)
-    expect(piano.keyToFreq(49)).toBe(440) //A4
-    expect(piano.keyToFreq(40)).toBeCloseTo(261.626, 3) //Middle C
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 69,
+      highKey: 82
+    })
+    expect(piano.keyToFreq(69)).toBe(440) //A4
+    expect(piano.keyToFreq(60)).toBeCloseTo(261.626, 3) //Middle C
   })
 })
 
@@ -51,23 +55,23 @@ describe("The constructor, when called with one data set", function(){
         11,
         12
       ],
-      lowKey: 49,
-      highKey: 60,
+      lowKey: 69,
+      highKey: 80,
       lowVelocity: 42,
       highVelocity: 96
     })
-  });
+  })
   it("should map a series of numbers to a specified range of keys", function(){
     expect(piano.keys.length).toBe(12)
     for(var i = 0; i < piano.keys.length; i++)
     {
-      expect(piano.keys[i]).toBe(49 + i)
+      expect(piano.keys[i]).toBe(69 + i)
     }
   })
   it("should map those keys to their corresponding frequencies", function(){
     for(var i = 0; i < piano.freqs.length; i++)
     {
-      expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(49 + i), 3)
+      expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(69 + i), 3)
     }
   })
 })
@@ -89,8 +93,8 @@ describe("DataPiano#getSinPlayFunc", function() {
         11,
         12
       ],
-      lowKey: 49,
-      highKey: 60,
+      lowKey: 69,
+      highKey: 80,
       lowVelocity: 42,
       highVelocity: 96
     })
@@ -112,23 +116,29 @@ describe("DataPiano#getSinPlayFunc", function() {
 })
 describe("DataPiano#getSquarePlayFunc", function() {
   beforeEach(function() {
-    piano = new dp([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12
-    ], 49, 60)
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 69,
+      highKey: 80,
+      lowVelocity: 42,
+      highVelocity: 96
+    })
     playFunc2 = piano.getSquarePlayFunc(2);
     playFunc4 = piano.getSquarePlayFunc(4);
-  });
+  })
   it("should return a function when passed an integer", function() {
     expect(typeof playFunc2).toBe('function');
     expect(typeof playFunc4).toBe('function');
@@ -145,23 +155,29 @@ describe("DataPiano#getSquarePlayFunc", function() {
 
 describe("DataPiano#getSawtoothPlayFunc", function() {
   beforeEach(function() {
-    piano = new dp([
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12
-    ], 49, 60)
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 69,
+      highKey: 80,
+      lowVelocity: 42,
+      highVelocity: 96
+    })
     playFunc2 = piano.getSawtoothPlayFunc(2);
     playFunc4 = piano.getSawtoothPlayFunc(4);
-  });
+  })
   it("should return a function when passed an integer", function() {
     expect(typeof playFunc2).toBe('function');
     expect(typeof playFunc4).toBe('function');
