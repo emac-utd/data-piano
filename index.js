@@ -14,8 +14,8 @@ function noteOff(channel, pitch, velocity) {
 module.exports = function(opts){
 
   //Defaults
-  var lowkey = opts.lowKey ? opts.lowKey : 49
-  var highkey = opts.highKey ? opts.highKey : 62
+  var lowkey = opts.lowKey ? opts.lowKey : 60
+  var highkey = opts.highKey ? opts.highKey : 71
   var lowvel = opts.lowVelocity ? opts.lowVelocity : 0
   var highvel = opts.highVelocity ? opts.highVelocity : 127
 
@@ -42,8 +42,8 @@ module.exports = function(opts){
 }
 
 module.exports.keyToFreq = function(key) {
-  if(key < 1) throw new Exception("Invalid key")
-  return Math.pow(2, (key-49)/12) * 440
+  if(key < 0 || key > 127 || key % 1 !== 0) throw new Error("Invalid key")
+  return Math.pow(2, (key-69)/12) * 440
 }
 
 module.exports.prototype.keyToFreq = module.exports.keyToFreq

@@ -8,11 +8,21 @@ describe("keyToFreq", function(){
     expect(dp.keyToFreq(69)).toBe(440) //A4
     expect(dp.keyToFreq(60)).toBeCloseTo(261.626, 3) //Middle C
   })
-  it("should not allow any keys below 1", function(){
-    var firstFailure = function() { dp.keyToFreq(-1) }
-    var secondFailure = function() { dp.keyToFreq(0) }
-    expect(firstFailure).toThrow()
-    expect(secondFailure).toThrow()
+  it("should not allow any keys below 0", function(){
+    var shouldFail = function() { dp.keyToFreq(-1) }
+    var shouldNotFail = function() { dp.keyToFreq(0) }
+    expect(shouldFail).toThrow("Invalid key")
+    expect(shouldNotFail).not.toThrow()
+  })
+  it("should not allow any keys above 127", function(){
+    var shouldFail = function() { dp.keyToFreq(128) }
+    var shouldNotFail = function() { dp.keyToFreq(127) }
+    expect(shouldFail).toThrow("Invalid key")
+    expect(shouldNotFail).not.toThrow()
+  })
+  it("should not allow fractional key numbers", function(){
+    var shouldFail = function () { dp.keyToFreq(1.24) }
+    expect(shouldFail).toThrow("Invalid key")
   })
   it("should be usable as an instance method as well as a static method", function(){
     piano = new dp({
@@ -72,6 +82,40 @@ describe("The constructor, when called with one data set", function(){
     for(var i = 0; i < piano.freqs.length; i++)
     {
       expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(69 + i), 3)
+    }
+  })
+})
+
+describe("The constructor, when called with one data set and default parameters", function(){
+  beforeEach(function() {
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ]
+    })
+  })
+  it("should map a series of numbers to keys 60-71 (C4 to B4)", function(){
+    expect(piano.keys.length).toBe(12)
+    for(var i = 0; i < piano.keys.length; i++)
+    {
+      expect(piano.keys[i]).toBe(60 + i)
+    }
+  })
+  it("should map those keys to their corresponding frequencies", function(){
+    for(var i = 0; i < piano.freqs.length; i++)
+    {
+      expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(60 + i), 3)
     }
   })
 })
