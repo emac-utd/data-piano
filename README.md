@@ -22,15 +22,28 @@ var baudio = require('baudio')
 
 var data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-var piano = new DataPiano(data, 60, 71) //Key range from C4 to B4
+var piano = new DataPiano({
+    data: data, //Note data
+    velocityData: data, //MIDI velocity data
+    lowKey: 60, //C4
+    highKey: 71, //B4
+    lowVelocity: 42, //piano
+    highVelocity: 80, //forte
+    stopVelocity: 80 //Velocity sent with midi stop command, usually doesn't matter
+  })
 
 console.log(piano.keys) //[60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71]
 console.log(piano.freqs) //Associated note frequency for each key
+console.log(piano.velocities) //Associated velocity for each key
 
 //Play two notes every second with baudio
 var playFunc = piano.getSinPlayFunc(2)
 var b = baudio(playFunc)
 b.play()
+
+//Get node-midi compatible "note on" message for the first beat
+var firstBeat = piano.getMidiPlayFunc(0)(0)
+console.log(firstBeat) //[144, 60, 42]
 ```
 
 API
