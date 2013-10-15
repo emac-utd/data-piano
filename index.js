@@ -27,7 +27,7 @@ module.exports = function(opts){
 
   //Datasets
   var keydata = opts.data
-  var veldata = opts.veldata
+  var veldata = opts.velocityData
 
   var max = Math.max.apply(null, keydata)
   var min = Math.min.apply(null, keydata)

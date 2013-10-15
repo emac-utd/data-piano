@@ -46,6 +46,21 @@ var firstBeat = piano.getMidiPlayFunc(0)(0)
 console.log(firstBeat) //[144, 60, 42]
 ```
 
+Defaults
+--------
+
+```javascript
+{
+  data: undefined, //Required
+  velocityData: undefined, //Not required, defaults to generating constant velocity from averaging high and low
+  lowKey: 60, //C4
+  highKey: 71, //B4
+  lowVelocity: 0,
+  highVelocity: 127,
+  stopVelocity: (lowVelocity+highVelocity)/2
+}
+```
+
 API
 ---
 

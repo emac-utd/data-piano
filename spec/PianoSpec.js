@@ -289,7 +289,7 @@ describe("DataPiano#getMidiPlayFunc", function() {
         11,
         12
       ],
-      veldata: [
+      velocityData: [
         1,
         2,
         3,
