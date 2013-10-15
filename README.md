@@ -1,7 +1,7 @@
 data-piano
 ==========
 
-[![Build Status](https://travis-ci.org/emac-utd/data-piano.png?branch=midi)](https://travis-ci.org/emac-utd/data-piano)
+[![Build Status](https://travis-ci.org/emac-utd/data-piano.png?branch=master)](https://travis-ci.org/emac-utd/data-piano)
 
 Map numeric data to MIDI keyboard keys (where key 60 is Middle C)
 
