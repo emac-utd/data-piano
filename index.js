@@ -11,17 +11,23 @@ function noteOff(channel, pitch, velocity) {
   return [NOTE_OFF + channel, pitch, velocity]
 }
 
+function existy(value)
+{
+  return value !== undefined && value !== null
+}
+
 module.exports = function(opts){
 
   //Defaults
-  var lowkey = opts.lowKey ? opts.lowKey : 60
-  var highkey = opts.highKey ? opts.highKey : 71
-  var lowvel = opts.lowVelocity ? opts.lowVelocity : 0
-  var highvel = opts.highVelocity ? opts.highVelocity : 127
+  var lowkey = existy(opts.lowKey) ? opts.lowKey : 60
+  var highkey = existy(opts.highKey) ? opts.highKey : 71
+  var lowvel = existy(opts.lowVelocity) ? opts.lowVelocity : 0
+  var highvel = existy(opts.highVelocity) ? opts.highVelocity : 127
+  this.stopvel = existy(opts.stopVelocity) ? opts.stopVelocity : (lowvel + highvel) / 2
 
   //Datasets
-  var keydata = opts.data;
-  var veldata = opts.veldata;
+  var keydata = opts.data
+  var veldata = opts.veldata
 
   var max = Math.max.apply(null, keydata)
   var min = Math.min.apply(null, keydata)
@@ -33,12 +39,20 @@ module.exports = function(opts){
   })
   this.freqs = this.keys.map(this.keyToFreq)
   if(veldata) {
-    var maxvel = Math.max.apply(null, veldata)
-    var minvel = Math.min.apply(null, veldata)
-    var velrange = maxvel - minvel
+    var maxveldata = Math.max.apply(null, veldata)
+    var minveldata = Math.min.apply(null, veldata)
+    var veldatarange = maxveldata - minveldata
+    var velrange = highvel - lowvel
     this.velocities = veldata.map(function(num) {
+      var result = Math.round((num-minveldata)/veldatarange * velrange) + lowvel
+      return result
     })
   }
+  else {
+    //Generate a constant average velocity for every key value
+    this.velocities = this.keys.map(function() { return (lowvel + highvel) / 2 })
+  }
+
 }
 
 module.exports.keyToFreq = function(key) {
@@ -67,5 +81,28 @@ module.exports.prototype.getSawtoothPlayFunc = function (bps) {
   return function(t) {
     var freq = freqs[Math.floor(t * bps) % freqs.length]
     return t % (1 / freq) * freq * 2 - 1
+  }
+}
+
+module.exports.prototype.getMidiPlayFunc = function (channel) {
+  var keys = this.keys
+  var vels = this.velocities
+  return function(beat) {
+    var curBeat = beat % keys.length >= 0 ?
+      beat % keys.length :
+      beat % keys.length + keys.length
+    if(keys[curBeat] === undefined) console.log(curBeat)
+    return noteOn(channel, keys[curBeat], vels[curBeat])
+  }
+}
+
+module.exports.prototype.getMidiStopFunc = function(channel) {
+  var keys = this.keys
+  var stopvel = this.stopvel
+  return function(beat) {
+    var prevBeat = (beat - 1) % keys.length >= 0 ?
+      (beat - 1) % keys.length :
+      (beat - 1) % keys.length + keys.length
+    return noteOff(channel, keys[prevBeat], stopvel)
   }
 }

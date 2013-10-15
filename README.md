@@ -56,3 +56,11 @@ Returns a function of time that represents the data played in sequence as square
 ###DataPiano#getSawtoothPlayFunc(bps)
 
 Returns a function of time that represents the data played in sequence as sawtooth waves, changing to the next key `bps` times per second
+
+###DataPiano#getMidiPlayFunc(channel)
+
+Returns a function of beat # that represents the midi instruction to play the data in sequence, changing to the next key on each beat of the midi clock
+
+###DataPiano#getMidiStopFunc(channel)
+
+Returns a function of beat # that represents the midi instruction to turn off the note from the previous beat, an instruction that must be passed every time you want to change to a new note
