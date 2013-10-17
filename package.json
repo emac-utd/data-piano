@@ -21,5 +21,6 @@
   "scripts": {
     "test": "grunt travis --verbose"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["midi", "music", "baudio", "sonification"]
 }
