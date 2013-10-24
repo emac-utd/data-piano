@@ -2,6 +2,7 @@
   "name": "data-piano",
   "description": "Normalize numeric data and map it to piano keys",
   "version": "0.2.0",
+  "engines": { "node": ">=0.10.0" },
   "dependencies": {
     "inherits": "2.0.x"
   },
