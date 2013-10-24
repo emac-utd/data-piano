@@ -85,6 +85,10 @@ describe("The constructor, when called with one data set", function(){
       expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(69 + i), 3)
     }
   })
+  it("should construct a readable stream", function(){
+    expect(typeof piano.read).toBe('function')
+    expect(typeof piano.pipe).toBe('function')
+  })
 })
 
 describe("The constructor, when called with one data set and default parameters", function(){
@@ -121,6 +125,10 @@ describe("The constructor, when called with one data set and default parameters"
     {
       expect(piano.freqs[i]).toBeCloseTo(piano.keyToFreq(60 + i), 3)
     }
+  })
+  it("should construct a readable stream", function(){
+    expect(typeof piano.read).toBe('function')
+    expect(typeof piano.pipe).toBe('function')
   })
 })
 
@@ -415,6 +423,80 @@ describe("DataPiano#getMidiStopFunc", function() {
       (i - 1) % 12 < 0 ?
         expect(stopFunc2(i)).toEqual([0x81, 81 + (i - 1) % 12, 80]) :
         expect(stopFunc2(i)).toEqual([0x81, 69, 80])
+    }
+  })
+})
+
+describe("DataPiano#read", function() {
+  beforeEach(function() {
+    piano = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 69,
+      highKey: 80,
+      lowVelocity: 42,
+      highVelocity: 96,
+      streamChannel: 1
+    })
+    piano2 = new dp({
+      data: [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      lowKey: 69,
+      highKey: 80,
+      lowVelocity: 42,
+      highVelocity: 96
+    })
+  })
+  it('should stream midi instructions in a loop', function() {
+    for(var i = 0; i < piano.keys.length * 2; i++)
+    {
+      var midiBuf = piano.read()
+      expect(midiBuf[0]).toBe(0x81)
+      i % 12 > 0 ?
+        expect(midiBuf[1]).toBe(69 + (i-1) % 12) :
+        expect(midiBuf[1]).toBe(80)
+      expect(midiBuf[2]).toBe((42+96)/2)
+      expect(midiBuf[3]).toBe(0x91)
+      expect(midiBuf[4]).toBe(69 + i % 12)
+      expect(midiBuf[5]).toBe((42+96)/2)
+    }
+  })
+  it('should use channel 0 by default', function() {
+    for(var i = 0; i < piano2.keys.length * 2; i++)
+    {
+      var midiBuf = piano2.read()
+      expect(midiBuf[0]).toBe(0x80)
+      i % 12 > 0 ?
+        expect(midiBuf[1]).toBe(69 + (i-1) % 12) :
+        expect(midiBuf[1]).toBe(80)
+      expect(midiBuf[2]).toBe((42+96)/2)
+      expect(midiBuf[3]).toBe(0x90)
+      expect(midiBuf[4]).toBe(69 + i % 12)
+      expect(midiBuf[5]).toBe((42+96)/2)
     }
   })
 })

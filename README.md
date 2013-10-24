@@ -92,3 +92,7 @@ Returns a function of beat # that represents the midi instruction to play the da
 ###DataPiano#getMidiStopFunc(channel)
 
 Returns a function of beat # that represents the midi instruction to turn off the note from the previous beat, an instruction that must be passed every time you want to change to a new note
+
+###DataPiano#read/DataPiano#pipe
+
+DataPiano instances are also [readable streams](https://github.com/substack/stream-handbook#readable-streams), and will output a looping bytestream of midi messages that will turn on and off beat notes in sequence.  It is up to the consumer to provide timing and midi port interfacing.
